@@ -1,15 +1,31 @@
-## Put comments here that give an overall description of what your
-## functions do
+#Emmanuel Asare Nti
+#week 3 assignment 2
 
-## Write a short comment describing this function
-
-makeCacheMatrix <- function(x = matrix()) {
-
+makeCacheMatrix <- function(x=matrix()){
+        invers=NULL
+        go <- function(y){
+                x<<-y
+                invers<<-NULL
+        }
+        triv <- function(){x}
+        goInverse <- function(inverse){invers <<- inverse}
+        trivInverse <- function(){invers}
+        list(go=go,triv=triv,goInverse=goInverse, trivInverse=trivInverse)
 }
 
-
-## Write a short comment describing this function
-
-cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+cacheSolve <- function(x, ...){
+        invers <- x$trivInverse()
+        if(!is.null(invers)){
+                message("Return cache data")
+                return(invers)
+        }
+        mat <- x$triv()
+        invers <- solve(mat, ...)
+        x$goInverse(invers)
+        print(invers)
 }
+
+matcache <- makeCacheMatrix(matrix(1:4,nrow =2,ncol = 2))
+matcache$triv()
+matcache$trivInverse()
+cacheSolve(matcache)
